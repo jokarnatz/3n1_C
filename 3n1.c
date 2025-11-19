@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-unsigned long long get_input(char prompt) {
+unsigned long long get_input(const char *prompt) {
 
     unsigned long long value;
     int status;
     int c;
 
         do {
-        printf("%c", prompt);
+        printf("%s", prompt);
         status = scanf("%llu", &value); 
 
         if (status != 1) {
@@ -26,7 +26,7 @@ unsigned long long get_input(char prompt) {
 }
 
 struct array {
-   unsigned long long num_array;
+   unsigned long long *num_array;
 };
 
 struct array create_array(unsigned long long value) {
@@ -55,13 +55,19 @@ const char *run_collatz(struct array num_array, unsigned long long value) {
     printf("Starting the process..");
 
     for (int i = 2; i < value; i++) {
+
         number = num_array[i];
+
         while (number != 1) {
+
             if (number % 2 == 0) {
+
                 number /= 2;
         
             } else {
+
                 number = number * 3 + 1;
+            
             }
         }
     }
