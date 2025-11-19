@@ -25,25 +25,27 @@ unsigned long long get_input(const char *prompt) {
     return value;
 }
 
-struct array {
+typedef struct array {
    unsigned long long *num_array;
-};
+} arr;
 
 struct array create_array(unsigned long long value) {
 
-    unsigned long long *temp = (unsigned long long*)calloc(value, sizeof(unsigned long long));
-    struct array num_array;
-    if (temp == NULL) {
-            perror("Speicherzuweisung fehlgeschlagen.");
-        } else {
-            num_array[value] = *temp;
-        }
+    unsigned long long *num_array = (unsigned long long*)calloc(value, sizeof(unsigned long long));
+    struct array arr_result;
+
+    if (num_array == NULL) {
+        perror("Speicherzuweisung fehlgeschlagen.");
+        arr_result.num_array = NULL;
+        return arr_result;
+    }
 
     for (int i = 0; i < value; i++) {
         num_array[i] = i;
     }
 
-    return array;
+    arr_result.num_array = num_array;
+    return arr_result;
 
 }
 
@@ -57,7 +59,7 @@ const char *run_collatz(struct array num_array, unsigned long long value) {
 
     for (int i = 2; i < value; i++) {
 
-        number = num_array[i];
+        number = num_array.num_array[i];
 
         while (number != 1) {
 
@@ -72,7 +74,7 @@ const char *run_collatz(struct array num_array, unsigned long long value) {
             }
         }
     }
-    return "Done!";
+    printf("Done!");
 }
 
 int main() {
@@ -80,7 +82,7 @@ int main() {
     unsigned long long value = get_input("Geben Sie einen zu untersuchenden Zahlenraum ein:\n");
     struct array num_array = create_array(value);
     run_collatz(num_array, value);
-
+    free(num_array.num_array);
 
     return 0;
 }
