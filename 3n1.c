@@ -9,7 +9,7 @@ unsigned long long get_input(char prompt) {
 
         do {
         printf("%c", prompt);
-        status = scanf("%ull", &value); 
+        status = scanf("%llu", &value); 
 
         if (status != 1) {
 
@@ -25,29 +25,29 @@ unsigned long long get_input(char prompt) {
     return value;
 }
 
-struct num_array {
+struct array {
    unsigned long long num_array;
-}   arr;
+};
 
-struct arr create_array(unsigned long long value, struct num_array arr) {
+struct array create_array(unsigned long long value) {
 
-    unsigned long long *temp = (unsigned long long*)calloc(value * sizeof(unsigned long long));
+    unsigned long long *temp = (unsigned long long*)calloc(value, sizeof(unsigned long long));
         if (temp == NULL) {
             perror("Speicherzuweisung fehlgeschlagen.");
         } else {
-            unsigned long long *num_array = temp;
+            unsigned long long num_array[value] = &temp;
         }
 
-    for (i = 0; i < value; i++) {
+    for (int i = 0; i < value; i++) {
         num_array[i] = i;
     }
 
-    return arr;
+    return array;
 
 }
 
 
-char run_collatz(struct arr num_array, unsigned long long value) {
+const char *run_collatz(struct array num_array, unsigned long long value) {
 
     unsigned long long number;
     int count;
@@ -58,7 +58,6 @@ char run_collatz(struct arr num_array, unsigned long long value) {
         number = num_array[i];
         while (number != 1) {
             if (number % 2 == 0) {
-        
                 number /= 2;
         
             } else {
@@ -72,8 +71,8 @@ char run_collatz(struct arr num_array, unsigned long long value) {
 int main() {
 
     unsigned long long value = get_input("Geben Sie einen zu untersuchenden Zahlenraum ein:\n");
-    struct arr num_array = create_array(unsigned long long value, struct arr num_array);
-    run_collatz(struct arr num_array, unsigned lo    ng long value);
+    struct array num_array = create_array(value);
+    run_collatz(num_array, value);
 
 
     return 0;
